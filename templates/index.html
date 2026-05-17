@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Youssef Mohamed | UI/UX & Graphic Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Bebas+Neue&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cyan: #d4a017;
+      --purple: #f5c842;
+      --pink: #b8860b;
+      --lime: #f5c842;
+      --bg: #07060a;
+      --bg2: #0d0b10;
+      --card: #13101a;
+      --card2: #17131f;
+      --border: rgba(212,160,23,0.14);
+      --border2: rgba(245,200,66,0.10);
+      --text: #f0f0f0;
+      --muted: #6b6050;
+      --glow-c: rgba(212,160,23,0.35);
+      --glow-p: rgba(245,200,66,0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.5;
+    }
+
+    /* SCROLL PROGRESS BAR */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+      background: linear-gradient(90deg, #b8860b, #d4a017, #f5c842, #d4a017);
+      z-index: 9998; transition: width 0.1s linear;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--cyan), var(--purple)); border-radius: 2px; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 16px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(6,6,9,0.7);
+      backdrop-filter: blur(24px) saturate(1.5);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: padding 0.3s;
+    }
+    nav.scrolled { padding: 12px 60px; }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px; letter-spacing: 3px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      font-weight: 700; letter-spacing: 1.5px; transition: color .3s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; right: 0;
+      width: 0; height: 1px; background: linear-gradient(90deg, var(--cyan), var(--purple)); transition: width .4s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 200; }
+    .hamburger span { width: 24px; height: 2px; background: var(--cyan); border-radius: 2px; transition: all .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; background: rgba(6,6,9,0.97);
+      backdrop-filter: blur(20px); z-index: 150;
+      flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 4px;
+      color: var(--muted); text-decoration: none; transition: all .3s;
+    }
+    .mobile-menu a:hover { color: var(--cyan); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding-top: 80px;
+    }
+
+    /* Aurora background */
+    .aurora {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .aurora-blob {
+      position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.18;
+    }
+    .aurora-1 {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(212,160,23,0.15), transparent 70%);
+      top: -200px; right: -150px;
+      animation: aurora1 12s ease-in-out infinite;
+    }
+    .aurora-2 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(245,200,66,0.12), transparent 70%);
+      bottom: -150px; left: -100px;
+      animation: aurora2 15s ease-in-out infinite;
+    }
+    .aurora-3 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(184,134,11,0.1), transparent 70%);
+      top: 40%; left: 40%;
+      animation: aurora3 10s ease-in-out infinite;
+    }
+    @keyframes aurora1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-60px,40px) scale(1.1)} 66%{transform:translate(40px,-60px) scale(0.9)} }
+    @keyframes aurora2 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(50px,-40px) scale(0.9)} 66%{transform:translate(-40px,50px) scale(1.1)} }
+    @keyframes aurora3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,-30px) scale(1.2)} }
+
+    /* Grid */
+    #hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(212,160,23,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,160,23,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 25s linear infinite;
+      mask-image: radial-gradient(ellipse 80% 80% at center, black, transparent);
+    }
+    @keyframes gridMove { 0%{background-position:0 0} 100%{background-position:50px 50px} }
+
+    .hero-content {
+      text-align: center; position: relative; z-index: 2;
+      animation: heroIn 1.2s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    @keyframes heroIn { from{opacity:0;transform:translateY(60px)} to{opacity:1;transform:translateY(0)} }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(212,160,23,0.35);
+      background: rgba(212,160,23,0.06);
+      color: var(--cyan); font-size: 11px; padding: 7px 20px; border-radius: 40px;
+      letter-spacing: 3px; margin-bottom: 32px;
+      backdrop-filter: blur(10px);
+    }
+    .hero-badge::before { content: '●'; font-size: 8px; animation: blink 1.5s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(60px, 10vw, 130px); line-height: 0.95; letter-spacing: 4px;
+      background: linear-gradient(135deg, #fff 20%, #d4a017 60%, #f5c842 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 40px rgba(212,160,23,0.25));
+    }
+
+    .hero-typewriter {
+      font-size: 16px; color: var(--muted); letter-spacing: 4px; margin: 20px 0 40px;
+      font-weight: 600; min-height: 28px;
+    }
+    .hero-typewriter .typed-text { color: var(--purple); }
+    .hero-typewriter .cursor {
+      display: inline-block; width: 2px; height: 18px;
+      background: var(--cyan); margin-right: 4px; vertical-align: middle;
+      animation: blink 0.8s step-end infinite;
+    }
+
+    .hero-cta { display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      padding: 14px 36px; border-radius: 6px;
+      font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700;
+      letter-spacing: 2px; cursor: pointer; text-decoration: none; transition: all .3s;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: #000; border: none;
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      opacity: 0; transition: opacity .4s;
+    }
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(212,160,23,0.35); }
+    .btn-outline {
+      background: rgba(255,255,255,0.03); color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-3px); box-shadow: 0 0 30px rgba(212,160,23,0.14); }
+    .btn span { position: relative; z-index: 1; }
+
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: var(--muted); font-size: 10px; letter-spacing: 3px;
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+    .scroll-hint .arrow {
+      width: 20px; height: 20px; border-right: 1px solid var(--muted); border-bottom: 1px solid var(--muted);
+      transform: rotate(45deg); margin-top: -4px;
+    }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 110px 60px; }
+    .section-header { text-align: center; margin-bottom: 72px; }
+    .section-tag {
+      display: inline-block; font-size: 11px; letter-spacing: 4px;
+      color: var(--cyan); text-transform: uppercase; margin-bottom: 14px;
+      padding: 4px 16px; border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 20px; background: rgba(0,212,255,0.04);
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(44px, 6vw, 76px); letter-spacing: 3px;
+      background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--bg2); overflow: visible; }
+    .about-grid {
+      display: grid; grid-template-columns: 420px 1fr;
+      gap: 80px; align-items: center; max-width: 1160px; margin: 0 auto;
+    }
+
+    /* ── VISUAL SIDE ── */
+    .about-visual { position: relative; }
+
+    /* Decorative background rings */
+    .about-visual::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 460px; height: 460px; border-radius: 50%;
+      border: 1px solid rgba(212,160,23,0.08);
+      pointer-events: none; z-index: 0;
+      animation: ringPulse 4s ease-in-out infinite;
+    }
+    .about-visual::after {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 530px; height: 530px; border-radius: 50%;
+      border: 1px solid rgba(212,160,23,0.04);
+      pointer-events: none; z-index: 0;
+      animation: ringPulse 4s ease-in-out infinite 0.5s;
+    }
+    @keyframes ringPulse { 0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.02)} }
+
+    .about-photo-wrap {
+      position: relative; z-index: 2;
+      width: 100%; aspect-ratio: 3/4.2;
+    }
+
+    /* Gold corner accents */
+    .photo-corner {
+      position: absolute; width: 30px; height: 30px;
+      border-color: #d4a017; border-style: solid;
+      z-index: 10;
+    }
+    .photo-corner-tl { top: -6px; right: -6px; border-width: 2px 2px 0 0; }
+    .photo-corner-tr { top: -6px; left: -6px; border-width: 2px 0 0 2px; }
+    .photo-corner-bl { bottom: 60px; right: -6px; border-width: 0 2px 2px 0; }
+    .photo-corner-br { bottom: 60px; left: -6px; border-width: 0 0 2px 2px; }
+
+    .about-photo-frame {
+      width: 100%; height: calc(100% - 56px);
+      border-radius: 20px; overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(212,160,23,0.2);
+      box-shadow:
+        0 0 0 4px rgba(212,160,23,0.05),
+        0 40px 80px rgba(0,0,0,0.6),
+        0 0 60px rgba(212,160,23,0.1);
+    }
+    .about-photo-frame img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .6s ease;
+    }
+    .about-photo-wrap:hover .about-photo-frame img { transform: scale(1.03); }
+
+    /* Gold shimmer overlay on photo */
+    .about-photo-frame::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(
+        160deg,
+        rgba(212,160,23,0.12) 0%,
+        transparent 40%,
+        transparent 70%,
+        rgba(212,160,23,0.08) 100%
+      );
+      pointer-events: none;
+    }
+    /* Top gradient line */
+    .about-photo-frame::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 3;
+      background: linear-gradient(90deg, transparent, #d4a017, #f5c842, #d4a017, transparent);
+    }
+
+    /* Signature block */
+    .about-signature {
+      position: relative; z-index: 10;
+      background: rgba(7,6,10,0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(212,160,23,0.25);
+      border-radius: 0 0 20px 20px;
+      padding: 14px 22px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: -1px;
+    }
+    .signature-label { font-size: 10px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
+    .signature-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 28px;
+      background: linear-gradient(135deg, #b8860b, #d4a017, #f5c842, #d4a017);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 8px rgba(212,160,23,0.4));
+      letter-spacing: 1px;
+    }
+    .signature-badge {
+      font-size: 10px; color: #d4a017; letter-spacing: 2px;
+      border: 1px solid rgba(212,160,23,0.3);
+      padding: 4px 10px; border-radius: 20px;
+      background: rgba(212,160,23,0.06);
+    }
+
+    /* Floating tags */
+    .float-tag {
+      position: absolute; z-index: 15;
+      background: rgba(7,6,10,0.88); backdrop-filter: blur(20px);
+      border: 1px solid rgba(212,160,23,0.2);
+      border-radius: 14px; padding: 12px 18px;
+      font-size: 13px; font-weight: 700; color: #fff;
+      display: flex; align-items: center; gap: 10px;
+      animation: floatTag 4s ease-in-out infinite;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .float-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: #d4a017; box-shadow: 0 0 10px #d4a017; flex-shrink: 0; }
+    .float-tag-1 { bottom: 80px; right: -24px; animation-delay: 0s; }
+    .float-tag-2 { top: 60px; left: -24px; animation-delay: 2s; color: var(--cyan); border-color: rgba(212,160,23,0.15); }
+    .float-tag-stat { top: 50%; right: -28px; transform: translateY(-50%); flex-direction: column; align-items: flex-start; gap: 2px; animation-delay: 1s; }
+    .float-tag-stat .ft-num { font-family: 'Bebas Neue', sans-serif; font-size: 26px; background: linear-gradient(135deg, #d4a017, #f5c842); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+    .float-tag-stat .ft-lbl { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+    @keyframes floatTag { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .float-tag-stat { animation: floatTag2 4s ease-in-out infinite 1s; }
+    @keyframes floatTag2 { 0%,100%{transform:translateY(-50%)} 50%{transform:translateY(calc(-50% - 8px))} }
+
+    /* ── TEXT SIDE ── */
+    .about-text { padding-right: 10px; }
+    .about-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: 4px; color: var(--cyan);
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .about-eyebrow::before {
+      content: ''; display: block; width: 32px; height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+    }
+    .about-text h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 5vw, 58px); letter-spacing: 2px; color: #fff;
+      margin-bottom: 10px; line-height: 1.05;
+    }
+    .about-text h3 .gold { background: linear-gradient(135deg, #b8860b, #d4a017, #f5c842); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .about-subtitle {
+      font-size: 13px; color: var(--muted); letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: 32px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .about-subtitle::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .about-text p { color: var(--muted); line-height: 2.1; font-size: 15px; margin-bottom: 14px; }
+    .about-text p strong { color: var(--text); font-weight: 700; }
+
+    /* Skills chips row */
+    .about-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 32px; }
+    .about-chip {
+      font-size: 12px; padding: 6px 16px; border-radius: 30px;
+      border: 1px solid rgba(212,160,23,0.2);
+      color: #d4a017; background: rgba(212,160,23,0.05);
+      letter-spacing: 1px; transition: all .3s;
+    }
+    .about-chip:hover { background: rgba(212,160,23,0.12); border-color: rgba(212,160,23,0.4); }
+
+    /* Stats */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; margin-top: 36px;
+      border: 1px solid rgba(212,160,23,0.12);
+      border-radius: 16px; overflow: hidden;
+      background: rgba(212,160,23,0.02);
+    }
+    .stat {
+      text-align: center; padding: 24px 10px;
+      border-left: 1px solid rgba(212,160,23,0.1);
+      position: relative; overflow: hidden;
+      transition: background .3s;
+    }
+    .stat:first-child { border-left: none; }
+    .stat:hover { background: rgba(212,160,23,0.05); }
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif; font-size: 54px; line-height: 1;
+      background: linear-gradient(135deg, #b8860b, #d4a017, #f5c842);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 12px rgba(212,160,23,0.3));
+    }
+    .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; margin-top: 6px; }
+
+    /* ─── SKILLS — BENTO GRID ─── */
+    #skills { background: var(--bg); }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+      gap: 16px; max-width: 1100px; margin: 0 auto;
+    }
+    .bento-card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px; padding: 28px;
+      position: relative; overflow: hidden; transition: all .4s cubic-bezier(.16,1,.3,1);
+    }
+    .bento-card:hover { transform: translateY(-6px); border-color: rgba(212,160,23,0.25); box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,160,23,0.12); }
+    .bento-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+      opacity: 0; transition: opacity .4s;
+    }
+    .bento-card:hover::before { opacity: 1; }
+    .bento-card.wide { grid-column: span 2; }
+    .bento-card.tall { grid-row: span 2; }
+    .bento-icon { font-size: 32px; margin-bottom: 14px; display: block; }
+    .bento-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .bento-desc { font-size: 13px; color: var(--muted); line-height: 1.9; }
+    .skill-bar-wrap { margin-top: 18px; }
+    .skill-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+    .skill-bar-label span:last-child { color: var(--cyan); font-weight: 700; }
+    .skill-bar-track { height: 3px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--cyan), var(--purple)); transition: width 1.8s cubic-bezier(.16,1,.3,1); }
+
+    /* Bento featured card */
+    .bento-featured {
+      background: linear-gradient(135deg, rgba(212,160,23,0.07), rgba(245,200,66,0.04));
+      border-color: rgba(212,160,23,0.15);
+    }
+    .bento-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .bento-tool-tag {
+      font-size: 11px; padding: 4px 12px; border-radius: 20px;
+      border: 1px solid rgba(212,160,23,0.2); color: #d4a017; letter-spacing: 1px;
+      background: rgba(212,160,23,0.05);
+    }
+
+    /* ─── WORKS ─── */
+    #works { background: var(--bg2); }
+    .works-filter { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 52px; }
+    .filter-btn {
+      padding: 8px 22px; border-radius: 30px;
+      background: transparent; border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted); font-family: 'Cairo', sans-serif;
+      font-size: 12px; cursor: pointer; transition: all .3s; letter-spacing: 1px;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      border-color: transparent; color: #000; font-weight: 800;
+    }
+
+    .works-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; max-width: 1100px; margin: 0 auto;
+    }
+    .work-card {
+      aspect-ratio: 1; border-radius: 12px; overflow: hidden;
+      position: relative; cursor: pointer;
+      background: var(--card); border: 1px solid rgba(255,255,255,0.05);
+      transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s;
+    }
+    .work-card:hover { transform: scale(1.03); box-shadow: 0 24px 60px rgba(0,0,0,0.6); }
+    .work-card.wide { grid-column: span 2; aspect-ratio: 2/1; }
+    .work-card.tall { grid-row: span 2; aspect-ratio: 1/2; }
+    .work-card img { width:100%; height:100%; object-fit:cover; display:block; }
+    .work-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.75), rgba(0,255,135,0.65));
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      opacity: 0; transition: opacity .4s;
+      backdrop-filter: blur(4px);
+    }
+    .work-card:hover .work-overlay { opacity: 1; }
+    .work-overlay-title { font-size: 16px; font-weight: 800; color: #050505; text-align: center; padding: 0 16px; }
+    .work-overlay-tag {
+      font-size: 10px; color: #050505; letter-spacing: 3px;
+      border: 1px solid rgba(0,0,0,0.3); padding: 4px 12px; border-radius: 20px;
+      background: rgba(0,0,0,0.15); font-weight: 800;
+    }
+
+    .wc-1  { background: linear-gradient(135deg, #0d0d1a, #1a0a2e); }
+    .wc-2  { background: linear-gradient(135deg, #0a1a1a, #0a2a1a); }
+    .wc-3  { background: linear-gradient(135deg, #1a0a0a, #2a0a1a); }
+    .wc-4  { background: linear-gradient(135deg, #0a0a1a, #1a1a0a); }
+    .wc-5  { background: linear-gradient(135deg, #1a1a0a, #2a0a0a); }
+    .wc-6  { background: linear-gradient(135deg, #0a1a2a, #1a0a1a); }
+    .wc-7  { background: linear-gradient(135deg, #0a0a2a, #2a1a0a); }
+    .wc-8  { background: linear-gradient(135deg, #1a0a2a, #0a2a2a); }
+    .wc-9  { background: linear-gradient(135deg, #2a0a0a, #0a0a2a); }
+    .wc-10 { background: linear-gradient(135deg, #0a2a0a, #2a0a2a); }
+    .wc-11 { background: linear-gradient(135deg, #1a2a0a, #0a1a2a); }
+    .wc-12 { background: linear-gradient(135deg, #2a1a1a, #1a2a1a); }
+
+    /* ─── CLIENTS — MARQUEE ─── */
+    #clients { background: var(--bg); overflow: hidden; }
+    .clients-marquee-wrap {
+      position: relative; overflow: hidden;
+      padding: 12px 0;
+    }
+    /* Fade edges */
+    .clients-marquee-wrap::before,
+    .clients-marquee-wrap::after {
+      content: '';
+      position: absolute; top: 0; bottom: 0; width: 160px; z-index: 2; pointer-events: none;
+    }
+    .clients-marquee-wrap::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+    .clients-marquee-wrap::after  { right: 0; background: linear-gradient(-90deg, var(--bg), transparent); }
+
+    .clients-track {
+      display: flex; gap: 20px; width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .clients-track:hover { animation-play-state: paused; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    .client-chip {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--card2); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 60px; padding: 14px 24px;
+      white-space: nowrap; cursor: default;
+      transition: all .4s cubic-bezier(.16,1,.3,1);
+      position: relative; overflow: hidden;
+      flex-shrink: 0;
+    }
+    .client-chip::before {
+      content: ''; position: absolute; inset: 0; border-radius: 60px;
+      background: linear-gradient(135deg, rgba(212,160,23,0.07), rgba(245,200,66,0.04));
+      opacity: 0; transition: opacity .4s;
+    }
+    .client-chip:hover {
+      transform: translateY(-4px) scale(1.04);
+      border-color: rgba(212,160,23,0.4);
+      box-shadow: 0 8px 32px rgba(212,160,23,0.15), 0 0 0 1px rgba(212,160,23,0.12);
+    }
+    .client-chip:hover::before { opacity: 1; }
+
+    .client-chip-logo {
+      width: 36px; height: 36px; border-radius: 50%; object-fit: contain;
+      filter: grayscale(40%) brightness(1.1); transition: filter .4s;
+      background: rgba(255,255,255,0.04); padding: 4px;
+    }
+    .client-chip:hover .client-chip-logo { filter: grayscale(0%) brightness(1.3); }
+
+    .client-chip-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .client-chip-type { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+    /* Glow dot indicator */
+    .client-chip-glow {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #d4a017; box-shadow: 0 0 8px #d4a017;
+      flex-shrink: 0; opacity: 0; transition: opacity .4s;
+    }
+    .client-chip:hover .client-chip-glow { opacity: 1; }
+
+    /* Clients section subtitle */
+    .clients-subtitle {
+      text-align: center; color: var(--muted); font-size: 14px;
+      max-width: 500px; margin: 0 auto 52px; line-height: 2;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--bg2); position: relative; overflow: hidden; }
+    #contact::before {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,160,23,0.07), transparent 70%);
+      pointer-events: none;
+    }
+    .contact-inner { max-width: 700px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+    .contact-inner p { color: var(--muted); font-size: 15px; line-height: 2.2; margin-bottom: 52px; }
+    .contact-email {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(26px, 4.5vw, 52px); letter-spacing: 3px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      display: block; margin-bottom: 52px; text-decoration: none; transition: filter .3s;
+    }
+    .contact-email:hover { filter: brightness(1.3); }
+
+    .social-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 52px; }
+    .social-link {
+      width: 50px; height: 50px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; text-decoration: none; transition: all .3s;
+      background: rgba(255,255,255,0.02); backdrop-filter: blur(10px);
+    }
+    .social-link:hover { border-color: var(--cyan); box-shadow: 0 0 24px rgba(212,160,23,0.22), 0 0 0 1px rgba(212,160,23,0.12); transform: translateY(-5px); }
+
+    .contact-phones { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-bottom: 36px; }
+    .phone-item { color: var(--muted); font-size: 14px; letter-spacing: 1px; }
+    .phone-item span { color: var(--cyan); font-weight: 700; }
+
+    .see-you {
+      font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+      letter-spacing: 8px; color: rgba(255,255,255,0.12);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 24px 60px; border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    footer p { font-size: 12px; color: var(--muted); }
+    footer span { color: var(--cyan); }
+
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .bento-grid { grid-template-columns: repeat(2, 1fr); }
+      .bento-card.wide { grid-column: span 2; }
+      .bento-card.tall { grid-row: span 1; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 80px 20px; }
+      .about-grid { grid-template-columns: 1fr; gap: 50px; }
+      .about-grid .about-visual { max-width: 320px; margin: 0 auto; }
+      .float-tag-stat { display: none; }
+      .works-grid { grid-template-columns: 1fr 1fr; }
+      .work-card.wide { grid-column: span 2; }
+      .work-card.tall { grid-row: span 1; aspect-ratio: 1; }
+      footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-card.wide { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">عني</a>
+  <a href="#skills" onclick="closeMobile()">مهاراتي</a>
+  <a href="#works" onclick="closeMobile()">أعمالي</a>
+  <a href="#clients" onclick="closeMobile()">عملائي</a>
+  <a href="#contact" onclick="closeMobile()">تواصل</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">PORTFOLIO</div>
+  <ul class="nav-links">
+    <li><a href="#about">عني</a></li>
+    <li><a href="#skills">مهاراتي</a></li>
+    <li><a href="#works">أعمالي</a></li>
+    <li><a href="#clients">عملائي</a></li>
+    <li><a href="#contact">تواصل</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="aurora">
+    <div class="aurora-blob aurora-1"></div>
+    <div class="aurora-blob aurora-2"></div>
+    <div class="aurora-blob aurora-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">AVAILABLE FOR WORK · 2026</div>
+    <h1 class="hero-name">YOUSSEF<br>MOHAMED</h1>
+    <p class="hero-typewriter">
+      <span class="typed-text" id="typedText"></span><span class="cursor"></span>
+    </p>
+    <div class="hero-cta">
+      <a href="#works" class="btn btn-primary"><span>أعمالي</span></a>
+      <a href="#contact" class="btn btn-outline"><span>تواصل معي</span></a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL <div class="arrow"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <p class="section-tag">ME</p>
+    <h2 class="section-title">ABOUT ME</h2>
+  </div>
+  <div class="about-grid">
+
+    <!-- ── VISUAL SIDE ── -->
+    <div class="about-visual reveal">
+      <div class="about-photo-wrap">
+        <!-- Gold corner accents -->
+        <div class="photo-corner photo-corner-tl"></div>
+        <div class="photo-corner photo-corner-tr"></div>
+        <div class="photo-corner photo-corner-bl"></div>
+        <div class="photo-corner photo-corner-br"></div>
+
+        <!-- Photo -->
+        <div class="about-photo-frame">
+          <img src="static/my-photo.jpg" alt="Youssef Mohamed"/>
+        </div>
+
+        <!-- Signature strip -->
+        <div class="about-signature">
+          <span class="signature-label">Designer</span>
+          <span class="signature-text">Youssef Mohamed</span>
+          <span class="signature-badge">© 2026</span>
+        </div>
+      </div>
+
+      <!-- Floating tags -->
+      <div class="float-tag float-tag-1">
+        <div class="dot"></div>
+        متاح للعمل الآن
+      </div>
+      <div class="float-tag float-tag-2">
+        ✦ MENA Market Expert
+      </div>
+      <div class="float-tag float-tag-stat">
+        <div class="ft-num">12+</div>
+        <div class="ft-lbl">CLIENT</div>
+      </div>
+    </div>
+
+    <!-- ── TEXT SIDE ── -->
+    <div class="about-text reveal">
+      <div class="about-eyebrow">Brand Creator · UI/UX · Graphic Designer</div>
+      <h3>
+        يوسف<br>
+        <span class="gold">محمد</span>
+      </h3>
+      <div class="about-subtitle">Senior Graphic Designer — 4+ Years</div>
+
+      <p>
+        مصمم UI/UX وجرافيك بخبرة <strong>أكثر من 4 سنوات</strong>، متخصص في تحويل الأفكار إلى تصميمات قوية تهدف للتواصل والـ Conversion — من استراتيجية العلامة التجارية لأدق تفاصيل كل بكسل.
+      </p>
+      <p>
+        عملت كـ <strong>Senior Graphic Designer</strong> مسؤول عن الهوية البصرية الكاملة، وطورت مرئيات عالية التأثير للسوشيال ميديا خصوصًا لـ <strong>السوق السعودي ومنطقة MENA</strong>.
+      </p>
+      <p>
+        طورت أتمتة سير العمل بـ <strong>Python</strong> ورفعت الإنتاجية بأكثر من <strong>40%</strong>، وبنيت أنظمة علامات تجارية متكاملة لشركات متعددة.
+      </p>
+
+      <div class="about-chips">
+        <span class="about-chip">Branding</span>
+        <span class="about-chip">UI/UX</span>
+        <span class="about-chip">Social Media</span>
+        <span class="about-chip">Figma</span>
+        <span class="about-chip">Photoshop</span>
+        <span class="about-chip">Illustrator</span>
+        <span class="about-chip">Python</span>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-number">4+</div>
+          <div class="stat-label">سنوات خبرة</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">12+</div>
+          <div class="stat-label">عميل راضي</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">40%</div>
+          <div class="stat-label">زيادة الإنتاجية</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS — BENTO GRID -->
+<section id="skills">
+  <div class="section-header reveal">
+    <p class="section-tag">ما أقدر أعمله</p>
+    <h2 class="section-title">MY SKILLS</h2>
+  </div>
+  <div class="bento-grid">
+
+    <!-- Wide featured -->
+    <div class="bento-card bento-featured wide reveal">
+      <span class="bento-icon">🏷️</span>
+      <div class="bento-title">Branding & Visual Identity</div>
+      <div class="bento-desc">تصميم هوية بصرية متكاملة — لوجو، ألوان، خطوط، وبراند بيعبر عن روح الشركة ويفرق عن المنافسين. شغلت مع أكتر من 12 شركة في المنطقة.</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>إتقان</span><span>92%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:92%"></div></div>
+      </div>
+      <div class="bento-tools">
+        <span class="bento-tool-tag">Illustrator</span>
+        <span class="bento-tool-tag">Brand Strategy</span>
+        <span class="bento-tool-tag">Logo Design</span>
+        <span class="bento-tool-tag">Style Guides</span>
+      </div>
+    </div>
+
+    <div class="bento-card reveal">
+      <span class="bento-icon">📱</span>
+      <div class="bento-title">Social Media Design</div>
+      <div class="bento-desc">بوسترات وإعلانات احترافية تشد الانتباه وتزود التفاعل.</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>إتقان</span><span>95%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:95%"></div></div>
+      </div>
+    </div>
+
+    <div class="bento-card reveal">
+      <span class="bento-icon">🎨</span>
+      <div class="bento-title">Figma & UI/UX</div>
+      <div class="bento-desc">واجهات احترافية وتجارب بصرية سلسة مع بروتوتايب تفاعلي.</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>إتقان</span><span>93%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:93%"></div></div>
+      </div>
+    </div>
+
+    <div class="bento-card reveal">
+      <span class="bento-icon">🖼️</span>
+      <div class="bento-title">Photo Manipulation</div>
+      <div class="bento-desc">دمج صور وخلق مشاهد خيالية ودعائية بمستوى احترافي.</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>إتقان</span><span>88%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%"></div></div>
+      </div>
+    </div>
+
+    <div class="bento-card reveal">
+      <span class="bento-icon">🍕</span>
+      <div class="bento-title">Food & F&B Design</div>
+      <div class="bento-desc">تصميمات المطاعم والأطعمة بألوان دافئة تحفز على الطلب.</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>إتقان</span><span>90%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div>
+      </div>
+    </div>
+
+    <div class="bento-card reveal">
+      <span class="bento-icon">🎬</span>
+      <div class="bento-title">Motion & Video</div>
+      <div class="bento-desc">فيديوهات بورتفوليو وعروض بانتقالات سينمائية.</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>إتقان</span><span>80%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+
+    <div class="bento-card reveal">
+      <span class="bento-icon">🐍</span>
+      <div class="bento-title">Python Automation</div>
+      <div class="bento-desc">أتمتة سير عمل التصميم لرفع كفاءة الإنتاج — ميزة نادرة.</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>إتقان</span><span>75%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="section-header reveal">
+    <p class="section-tag">معرض الأعمال</p>
+    <h2 class="section-title">MY WORKS</h2>
+  </div>
+  <div class="works-filter reveal">
+    <button class="filter-btn active" data-filter="all">الكل</button>
+    <button class="filter-btn" data-filter="branding">Branding</button>
+    <button class="filter-btn" data-filter="social">Social Media</button>
+    <button class="filter-btn" data-filter="food">Food</button>
+    <button class="filter-btn" data-filter="photo">Photo Manipulation</button>
+    <button class="filter-btn" data-filter="uiux">UI/UX</button>
+    <button class="filter-btn" data-filter="law">Legal & Corporate</button>
+  </div>
+
+  <div class="works-grid" id="worksGrid">
+    <div class="work-card wc-1 reveal" data-cat="branding">
+      <img src="static/works/work1.jpg" alt="Work 1"/>
+      <div class="work-overlay"><div class="work-overlay-title">Brand Identity</div><div class="work-overlay-tag">BRANDING</div></div>
+    </div>
+    <div class="work-card wc-2 reveal" data-cat="social">
+      <img src="static/works/work2.jpg" alt="Work 2"/>
+      <div class="work-overlay"><div class="work-overlay-title">Car Ads Campaign</div><div class="work-overlay-tag">SOCIAL MEDIA</div></div>
+    </div>
+    <div class="work-card wc-3 reveal" data-cat="social">
+      <img src="static/works/work3.jpg" alt="Work 3"/>
+      <div class="work-overlay"><div class="work-overlay-title">شركه مهاره لتحصيل الديون</div><div class="work-overlay-tag">شركه تحصيل</div></div>
+    </div>
+    <div class="work-card wc-4 wide reveal" data-cat="photo">
+      <img src="static/works/work4.jpg" alt="Work 4"/>
+      <div class="work-overlay"><div class="work-overlay-title">Fantasy Composite</div><div class="work-overlay-tag">PHOTO MANIPULATION</div></div>
+    </div>
+    <div class="work-card wc-5 reveal" data-cat="social">
+      <img src="static/works/work5.jpg" alt="Work 5"/>
+      <div class="work-overlay"><div class="work-overlay-title">New Horizon Training Center</div><div class="work-overlay-tag">PRODUCT AD</div></div>
+    </div>
+    <div class="work-card wc-6 reveal" data-cat="branding">
+      <img src="static/works/work6.jpg" alt="Work 6"/>
+      <div class="work-overlay"><div class="work-overlay-title">More Works</div><div class="work-overlay-tag">VIEW ALL</div></div>
+    </div>
+    <div class="work-card wc-7 reveal" data-cat="uiux">
+      <img src="static/works/work7.jpg" alt="Work 7"/>
+      <div class="work-overlay"><div class="work-overlay-title">E-Commerce App UI</div><div class="work-overlay-tag">UI/UX</div></div>
+    </div>
+    <div class="work-card wc-8 reveal" data-cat="law">
+      <img src="static/works/work8.jpg" alt="Work 8"/>
+      <div class="work-overlay"><div class="work-overlay-title">إحكام — مكتب المحاماة</div><div class="work-overlay-tag">LEGAL BRANDING</div></div>
+    </div>
+    <div class="work-card wc-9 wide reveal" data-cat="social">
+      <img src="static/works/work9.jpg" alt="Work 9"/>
+      <div class="work-overlay"><div class="work-overlay-title">Saudi Real Estate Campaign</div><div class="work-overlay-tag">SOCIAL MEDIA</div></div>
+    </div>
+    <div class="work-card wc-10 reveal" data-cat="food">
+      <img src="static/works/work10.jpg" alt="Work 10"/>
+      <div class="work-overlay"><div class="work-overlay-title">Restaurant Menu Design</div><div class="work-overlay-tag">FOOD</div></div>
+    </div>
+    <div class="work-card wc-11 reveal" data-cat="branding">
+      <img src="static/works/work11.jpg" alt="Work 11"/>
+      <div class="work-overlay"><div class="work-overlay-title">بوابة التحصيل — Visual Identity</div><div class="work-overlay-tag">BRANDING</div></div>
+    </div>
+    <div class="work-card wc-12 reveal" data-cat="uiux">
+      <img src="static/works/work12.jpg" alt="Work 12"/>
+      <div class="work-overlay"><div class="work-overlay-title">Medical Clinic Dashboard</div><div class="work-overlay-tag">UI/UX</div></div>
+    </div>
+    <div class="work-card wc-1 reveal" data-cat="photo">
+      <img src="static/works/work13.jpg" alt="Work 13"/>
+      <div class="work-overlay"><div class="work-overlay-title">Cinematic Product Shoot</div><div class="work-overlay-tag">PHOTO MANIPULATION</div></div>
+    </div>
+    <div class="work-card wc-3 reveal" data-cat="social">
+      <img src="static/works/work14.jpg" alt="Work 14"/>
+      <div class="work-overlay"><div class="work-overlay-title">Dr. Baderya — Social Content</div><div class="work-overlay-tag">SOCIAL MEDIA</div></div>
+    </div>
+    <div class="work-card wc-8 reveal" data-cat="law">
+      <img src="static/works/work15.jpg" alt="Work 15"/>
+      <div class="work-overlay"><div class="work-overlay-title">Corporate Law Firm Rebrand</div><div class="work-overlay-tag">LEGAL BRANDING</div></div>
+    </div>
+    <div class="work-card wc-5 reveal" data-cat="food">
+      <img src="static/works/work16.jpg" alt="Work 16"/>
+      <div class="work-overlay"><div class="work-overlay-title">Burger House — Ad Campaign</div><div class="work-overlay-tag">FOOD</div></div>
+    </div>
+    <div class="work-card wc-7 wide reveal" data-cat="uiux">
+      <img src="static/works/work17.jpg" alt="Work 17"/>
+      <div class="work-overlay"><div class="work-overlay-title">Training Center — Web UI</div><div class="work-overlay-tag">UI/UX</div></div>
+    </div>
+    <div class="work-card wc-9 reveal" data-cat="branding">
+      <img src="static/works/work18.jpg" alt="Work 18"/>
+      <div class="work-overlay"><div class="work-overlay-title">Startup Brand Kit</div><div class="work-overlay-tag">BRANDING</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS — MARQUEE -->
+<section id="clients">
+  <div class="section-header reveal">
+    <p class="section-tag">ثقوا فيّا</p>
+    <h2 class="section-title">CLIENTS & PARTNERS</h2>
+  </div>
+  <p class="clients-subtitle reveal">شركات وعلامات تجارية وثقت في العمل معي وحققنا نتائج — hover للتوقف</p>
+
+  <div class="clients-marquee-wrap reveal">
+    <div class="clients-track" id="clientsTrack">
+
+      <!-- FIRST SET -->
+      <div class="client-chip">
+        <img src="static/clients/logo1.png" alt="مهاره" class="client-chip-logo"/>
+        <div><div class="client-chip-name">شركه مهاره</div><div class="client-chip-type">تحصيل ديون</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo2.png" alt="dr.baderya" class="client-chip-logo"/>
+        <div><div class="client-chip-name">Dr. Baderya</div><div class="client-chip-type">سوشيال ميديا</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo3.png" alt="New Horizon" class="client-chip-logo"/>
+        <div><div class="client-chip-name">New Horizon</div><div class="client-chip-type">مركز كورسات</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo4.png" alt="إحكام" class="client-chip-logo"/>
+        <div><div class="client-chip-name">إحكام</div><div class="client-chip-type">مكتب محاماه</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo5.png" alt="بوابة التحصيل" class="client-chip-logo"/>
+        <div><div class="client-chip-name">بوابة التحصيل</div><div class="client-chip-type">شركة سعودية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo6.png" alt="نخبة العقارية" class="client-chip-logo"/>
+        <div><div class="client-chip-name">نخبة العقارية</div><div class="client-chip-type">عقارات — السعودية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo7.png" alt="Burger House" class="client-chip-logo"/>
+        <div><div class="client-chip-name">Burger House</div><div class="client-chip-type">فود براندينج</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo8.png" alt="مجمع النور" class="client-chip-logo"/>
+        <div><div class="client-chip-name">مجمع النور الطبي</div><div class="client-chip-type">هوية بصرية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo9.png" alt="Apex Academy" class="client-chip-logo"/>
+        <div><div class="client-chip-name">Apex Academy</div><div class="client-chip-type">أكاديمية تدريب</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo10.png" alt="الوسيط" class="client-chip-logo"/>
+        <div><div class="client-chip-name">الوسيط القانوني</div><div class="client-chip-type">استشارات قانونية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo11.png" alt="سبارك" class="client-chip-logo"/>
+        <div><div class="client-chip-name">سبارك للتسويق</div><div class="client-chip-type">وكالة رقمية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo12.png" alt="LaVita" class="client-chip-logo"/>
+        <div><div class="client-chip-name">LaVita Coffee</div><div class="client-chip-type">كافيه — براندينج</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+
+      <!-- DUPLICATE for seamless loop -->
+      <div class="client-chip">
+        <img src="static/clients/logo1.png" alt="مهاره" class="client-chip-logo"/>
+        <div><div class="client-chip-name">شركه مهاره</div><div class="client-chip-type">تحصيل ديون</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo2.png" alt="dr.baderya" class="client-chip-logo"/>
+        <div><div class="client-chip-name">Dr. Baderya</div><div class="client-chip-type">سوشيال ميديا</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo3.png" alt="New Horizon" class="client-chip-logo"/>
+        <div><div class="client-chip-name">New Horizon</div><div class="client-chip-type">مركز كورسات</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo4.png" alt="إحكام" class="client-chip-logo"/>
+        <div><div class="client-chip-name">إحكام</div><div class="client-chip-type">مكتب محاماه</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo5.png" alt="بوابة التحصيل" class="client-chip-logo"/>
+        <div><div class="client-chip-name">بوابة التحصيل</div><div class="client-chip-type">شركة سعودية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo6.png" alt="نخبة العقارية" class="client-chip-logo"/>
+        <div><div class="client-chip-name">نخبة العقارية</div><div class="client-chip-type">عقارات — السعودية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo7.png" alt="Burger House" class="client-chip-logo"/>
+        <div><div class="client-chip-name">Burger House</div><div class="client-chip-type">فود براندينج</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo8.png" alt="مجمع النور" class="client-chip-logo"/>
+        <div><div class="client-chip-name">مجمع النور الطبي</div><div class="client-chip-type">هوية بصرية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo9.png" alt="Apex Academy" class="client-chip-logo"/>
+        <div><div class="client-chip-name">Apex Academy</div><div class="client-chip-type">أكاديمية تدريب</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo10.png" alt="الوسيط" class="client-chip-logo"/>
+        <div><div class="client-chip-name">الوسيط القانوني</div><div class="client-chip-type">استشارات قانونية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo11.png" alt="سبارك" class="client-chip-logo"/>
+        <div><div class="client-chip-name">سبارك للتسويق</div><div class="client-chip-type">وكالة رقمية</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+      <div class="client-chip">
+        <img src="static/clients/logo12.png" alt="LaVita" class="client-chip-logo"/>
+        <div><div class="client-chip-name">LaVita Coffee</div><div class="client-chip-type">كافيه — براندينج</div></div>
+        <div class="client-chip-glow"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <p class="section-tag">خلينا نتعاون</p>
+    <h2 class="section-title">CONTACT</h2>
+  </div>
+  <div class="contact-inner">
+    <p class="reveal">
+      عندك مشروع في دماغك؟ محتاج هوية بصرية، تصميمات سوشيال ميديا، أو UI/UX؟<br/>
+      أنا جاهز — تواصل معي دلوقتي!
+    </p>
+    <a href="mailto:you35477573@gmail.com" class="contact-email reveal">YOU35477573@GMAIL.COM</a>
+    <div class="social-links reveal">
+      <a href="https://behance.net" class="social-link" title="Behance" target="_blank">🎨</a>
+      <a href="https://linkedin.com" class="social-link" title="LinkedIn" target="_blank">💼</a>
+      <a href="https://instagram.com" class="social-link" title="Instagram" target="_blank">📸</a>
+      <a href="https://tiktok.com" class="social-link" title="TikTok" target="_blank">🎵</a>
+      <a href="https://reallygreatsite.com" class="social-link" title="Website" target="_blank">🌐</a>
+    </div>
+    <div class="contact-phones reveal">
+      <div class="phone-item">📞 <span>+20 111 209 6891</span></div>
+    </div>
+    <div class="see-you reveal">SEE YOU SOON ✦</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>Youssef Mohamed</span> — All Rights Reserved</p>
+  <p>Designed with <span>♥</span> & Passion</p>
+</footer>
+
+<script>
+  /* ── SCROLL PROGRESS ── */
+  const prog = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement;
+    const pct = (s.scrollTop / (s.scrollHeight - s.clientHeight)) * 100;
+    prog.style.width = pct + '%';
+  });
+
+  /* ── NAV SHRINK ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  /* ── MOBILE MENU ── */
+  function toggleMobile() {
+    document.getElementById('hamburger').classList.toggle('open');
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMobile() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  /* ── TYPEWRITER ── */
+  const phrases = [
+    'UI/UX Designer',
+    'Brand Creator',
+    'Social Media Expert',
+    'MENA Market Specialist',
+    'Visual Storyteller'
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  const typedEl = document.getElementById('typedText');
+  function type() {
+    const word = phrases[pi];
+    if (!deleting) {
+      typedEl.textContent = word.substring(0, ci + 1);
+      ci++;
+      if (ci === word.length) { deleting = true; setTimeout(type, 1800); return; }
+    } else {
+      typedEl.textContent = word.substring(0, ci - 1);
+      ci--;
+      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(type, deleting ? 60 : 90);
+  }
+  type();
+
+  /* ── SCROLL REVEAL ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const revObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        revObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => revObs.observe(el));
+
+  /* ── SKILL BARS ── */
+  const bars = document.querySelectorAll('.skill-bar-fill');
+  bars.forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0';
+    const barObs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { bar.style.width = w; barObs.disconnect(); }
+    }, { threshold: 0.4 });
+    barObs.observe(bar);
+  });
+
+  /* ── FILTER WORKS ── */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.dataset.filter;
+      document.querySelectorAll('.work-card').forEach(card => {
+        const show = filter === 'all' || card.dataset.cat === filter;
+        card.style.opacity = show ? '' : '0';
+        card.style.pointerEvents = show ? '' : 'none';
+        card.style.transform = show ? '' : 'scale(0.9)';
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  /* ── CURSOR GLOW ── */
+  const glow = document.createElement('div');
+  glow.style.cssText = `
+    position:fixed;width:360px;height:360px;border-radius:50%;
+    background:radial-gradient(circle,rgba(212,160,23,0.07),transparent 70%);
+    pointer-events:none;z-index:0;transform:translate(-50%,-50%);
+    transition:left 0.4s ease,top 0.4s ease;
+  `;
+  document.body.appendChild(glow);
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+  });
+</script>
+</body>
+</html>
